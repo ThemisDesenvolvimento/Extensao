@@ -1,4 +1,4 @@
-import { vendaServiceV1 } from "./implement";
+import { v1 } from "./implement";
 import { IVendaService } from "./interface";
 
-export const vendaService: IVendaService = vendaServiceV1;
+export const vendaService: IVendaService = v1;

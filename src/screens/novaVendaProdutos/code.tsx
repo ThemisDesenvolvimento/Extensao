@@ -1,3 +1,4 @@
+import { useVenda } from "@context/venda";
 import { ItemDaVenda } from "@models/businessObject/itemDaVenda";
 import { ProdutoEntity } from "@models/entity/produtoEntity";
 import { RepositorioFactory } from "@services/classes/Repositorio";
@@ -6,6 +7,7 @@ import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
 const repositorio = RepositorioFactory.Fabricar(ProdutoEntity);
 export function getProdutosNovaVendaCode(){
+	const venda = useVenda();
 	const model = Hooks.useModel({
 		produtos: [] as ItemDaVenda[]
 	});
@@ -42,6 +44,10 @@ export function getProdutosNovaVendaCode(){
 				});
 				return;
 			}
+
+			venda?.adicionarItens([...produtosParaAdicionar]);
+			produtosParaAdicionar.forEach(x => x.quantidade = 0);
+			model.acceptChanges();
 		}
 	};
 }

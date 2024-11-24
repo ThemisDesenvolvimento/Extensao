@@ -7,6 +7,7 @@ import { StatusBar } from "react-native";
 import { AlertNotificationRoot } from "react-native-alert-notification";
 import { PaperProvider, Portal } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
+import { VendaProvider } from "@context/venda";
 
 
 export default function App() {
@@ -15,16 +16,18 @@ export default function App() {
 	return (
 		<SafeAreaProvider>
 			<PaperProvider>
-				<Portal>
-					<NavigationContainer>
-						<AlertNotificationRoot>
-							<AutheticationProvider>
-								<StatusBar/>
-								<Navigator/>
-							</AutheticationProvider>
-						</AlertNotificationRoot>
-					</NavigationContainer>
-				</Portal>
+				<VendaProvider>
+					<Portal>
+						<NavigationContainer>
+							<AlertNotificationRoot>
+								<AutheticationProvider>
+									<StatusBar/>
+									<Navigator/>
+								</AutheticationProvider>
+							</AlertNotificationRoot>
+						</NavigationContainer>
+					</Portal>
+				</VendaProvider>
 			</PaperProvider>
 		</SafeAreaProvider>
 	);

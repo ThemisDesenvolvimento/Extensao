@@ -2,10 +2,19 @@ import Feather from "react-native-vector-icons/Feather";
 import { ScrollView } from "react-native";
 import { Dimensions, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { NavigatorButton } from "../../core/navigation/navigator";
+import React from "react";
+import { vendaService } from "@services/classes/vendaService";
+import { IVenda } from "@services/classes/vendaService/interface";
 
 
 export function VendasScreen(){
-	const valor = 200;
+	const [data, setData] = React.useState(new Date());
+	const [vendas, setVendas] = React.useState<IVenda[]>([]);
+	const ehDataAtual = data.toDateString() == (new Date()).toDateString();
+
+	React.useEffect(() => {
+		vendaService.obtenhaVendasDoDia(data.toISOString());
+	}, []);
 	return (
 		<View style={{ flex: 1,  backgroundColor: "white" }}>
 			<NavigatorButton/>
@@ -21,14 +30,19 @@ export function VendasScreen(){
 					borderBottomWidth: StyleSheet.hairlineWidth
 				}}
 			>
-				<TouchableOpacity>
+				<TouchableOpacity onPress={() => {
+					const novaData = new Date();
+					novaData.setDate(data.getDate() - 1);
+
+					setData(novaData);
+				}}>
 					<Feather name="arrow-left-circle" size={25}/>
 				</TouchableOpacity>
 
 				<Text style={{ fontSize: 20 }}>Hoje</Text>
 
 				<TouchableOpacity>
-					{false &&
+					{!ehDataAtual &&
                     <Feather name="arrow-right-circle" size={25}/>
 					}
 				</TouchableOpacity>
@@ -61,7 +75,7 @@ export function VendasScreen(){
 				>
 					<Text></Text>
 					<Text style={{ fontSize: 48, fontWeight: "300", }}>
-						{valor.toMoeda("R$")}
+						{vendas.reduce((total, current) => total + current.valorTotal, 0).toMoeda("R$")}
 					</Text>
 
 					<Text style={{ fontSize: 20, fontWeight: "400", color: "#a200ffd1" }} >

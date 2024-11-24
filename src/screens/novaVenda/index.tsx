@@ -1,4 +1,5 @@
 import { FlexContainer } from "@components/container";
+import { useVenda } from "@context/venda";
 import { ProdutoEntity } from "@models/entity/produtoEntity";
 import { useNavigation } from "@react-navigation/native";
 import { API } from "@services/Api";
@@ -7,6 +8,9 @@ import { Button, Text } from "react-native-paper";
 
 export function NovaVendaScreen(){
 	const navigation = useNavigation();
+	const venda = useVenda();
+	const itens = venda?.model.itens ?? [];
+
 	return (
 		<View
 			style={{
@@ -79,7 +83,7 @@ export function NovaVendaScreen(){
 			<View style={{ height: "30%", width: "100%", borderStyle: "solid", borderWidth: 1, padding: 5 }}>
 				<FlexContainer direction="row" justify="space-between">
 					<Text style={{ fontWeight: "900", fontSize: 18 }}>Valor do Itens</Text>
-					<Text style={{ fontWeight: "600", fontSize: 18 }}>{(200).toMoeda("R$")}</Text>
+					<Text style={{ fontWeight: "600", fontSize: 18 }}>{(itens.reduce((total, current) => total + current.preco, 0)).toMoeda("R$")}</Text>
 				</FlexContainer>
 
 				<FlexContainer direction="row" justify="space-between">
@@ -89,7 +93,7 @@ export function NovaVendaScreen(){
 
 				<FlexContainer direction="row" justify="space-between">
 					<Text style={{ fontWeight: "900", fontSize: 18 }}>Total da Venda</Text>
-					<Text style={{ fontWeight: "600", fontSize: 18 }}>{(0).toMoeda("R$")}</Text>
+					<Text style={{ fontWeight: "600", fontSize: 18 }}>{(itens.reduce((total, current) => total + current.preco, 0)).toMoeda("R$")}</Text>
 				</FlexContainer>
 
 				<Button mode="contained" onPress={() => {
@@ -99,6 +103,10 @@ export function NovaVendaScreen(){
 					}) as never);
 				}}>
 					Adicionar Produtos
+				</Button>
+
+				<Button mode="contained" onPress={() => venda?.finalizarVenda()}>
+					Finalizar
 				</Button>
 			</View>
 		</View>
