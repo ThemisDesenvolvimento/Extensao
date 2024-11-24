@@ -1,0 +1,17 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strictPropertyInitialization": false,
+    "strict": true,
+    "experimentalDecorators": true,
+    "paths": {
+      // "@app/*": ["./src/*"],
+      "@services/*": ["./src/services/*"],
+			"@components/*": ["./src/core/components/*"],
+			"@context/*": ["./src/core/context/*"],
+			"@models/*": ["./src/utils/models/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@screens/*": ["./src/screens/*"],
+    }
+  }
+}
